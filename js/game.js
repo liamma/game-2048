@@ -52,6 +52,9 @@ Game2048.prototype = {
         }
         var randomTile = eligibilityTiles[Math.floor(Math.random() * eligibilityTiles.length)];
         this.setTileVal(randomTile, Math.random() < 0.5 ? 2 : 4);
+    },
+    move: function() {
+
     }
 }
 var game;
@@ -59,4 +62,8 @@ $('#startGame').click(function() {
     $("#startGame").hide();
     game = game || new Game2048($('#game-grid'));
     game.init();
+});
+
+$(document).keydown(function(event) {
+    alert(event.keyCode);
 });
