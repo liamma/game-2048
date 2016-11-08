@@ -1,7 +1,7 @@
 #game-grid {
     width: 500px;
     height: 500px;
-    background-color: rgb(255, 100, 2);
+    background-color: #b8af9e;
     position: relative;
     margin: 0 auto;
 }
@@ -13,10 +13,10 @@
     font-size: 30px;
     font-family: sans-serif;
     color: rgb(102, 0, 204);
-    background-color: rgb(255, 255, 51);
+    background-color: yellow;
 }
 
-#div2048 div.tile {
+#game-grid div.tile {
     margin: 20px 0px 0px 20px;
     width: 100px;
     height: 40px;
@@ -25,4 +25,8 @@
     line-height: 40px;
     text-align: center;
     float: left;
+}
+
+#game-grid div.tile0 {
+    background: #ccc0b2;
 }
