@@ -30,3 +30,13 @@
 #game-grid div.tile0 {
     background: #ccc0b2;
 }
+
+#game-grid div.tile2 {
+    color: #7c736a;
+    background: #eee4da;
+}
+
+#game-grid div.tile4 {
+    color: #7c736a;
+    background: #ece0c8;
+}
