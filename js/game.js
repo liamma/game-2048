@@ -58,22 +58,46 @@ Game2048.prototype = {
             //top
             case 87:
             case 38:
-                alert('top');
+                for (var i = 4; i <= this.tiles.length; i++) {
+                    var j = i;
+                    while (j >= 4) {
+                        this.merge(this.tiles[j - 4], this.tiles[j]);
+                        j -= 4;
+                    }
+                }
                 break;
                 //down
             case 83:
             case 40:
-                alert('down');
+                for (var i = 11; i >= 0; i--) {
+                    var j = i;
+                    while (j <= 11) {
+                        this.merge(this.tiles[j + 4], this.tiles[j]);
+                        j += 4;
+                    }
+                }
                 break;
                 //left
             case 37:
             case 65:
-                alert('left');
+                for (var i = 1; i <= this.tiles.length; i++) {
+                    var j = i;
+                    while (j % 4 != 0) {
+                        this.$.merge(this.tiles[j - 1], this.tiles[j]);
+                        j -= 1;
+                    }
+                }
                 break;
                 //right
             case 68:
             case 39:
-                alert('right');
+                for (var i = 14; i <= this.tiles.length; i--) {
+                    var j = i;
+                    while (j % 4 != 3) {
+                        this.$.merge(this.tiles[j], this.tiles[j - 1]);
+                        j += 1;
+                    }
+                }
                 break;
         }
     }
