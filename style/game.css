@@ -15,3 +15,14 @@
     color: rgb(102, 0, 204);
     background-color: rgb(255, 255, 51);
 }
+
+#div2048 div.tile {
+    margin: 20px 0px 0px 20px;
+    width: 100px;
+    height: 40px;
+    padding: 30px 0;
+    font-size: 40px;
+    line-height: 40px;
+    text-align: center;
+    float: left;
+}
