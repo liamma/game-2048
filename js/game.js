@@ -53,8 +53,29 @@ Game2048.prototype = {
         var randomTile = eligibilityTiles[Math.floor(Math.random() * eligibilityTiles.length)];
         this.setTileVal(randomTile, Math.random() < 0.5 ? 2 : 4);
     },
-    move: function() {
-
+    move: function(keyNum) {
+        switch (keyNum) {
+            //top
+            case 87:
+            case 38:
+                alert('top');
+                break;
+                //down
+            case 83:
+            case 40:
+                alert('down');
+                break;
+                //left
+            case 37:
+            case 65:
+                alert('left');
+                break;
+                //right
+            case 68:
+            case 39:
+                alert('right');
+                break;
+        }
     }
 }
 var game;
@@ -63,7 +84,10 @@ $('#startGame').click(function() {
     game = game || new Game2048($('#game-grid'));
     game.init();
 });
-
+//top 87,38 right 68,39 down 83,40 left 37,65
 $(document).keydown(function(event) {
-    alert(event.keyCode);
+    var keyNumList = [87, 38, 68, 39, 83, 40, 37, 65];
+    if (keyNumList.indexOf(event.keyCode) > -1) {
+        game.move(event.keyCode);
+    }
 });
