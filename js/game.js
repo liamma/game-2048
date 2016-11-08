@@ -128,6 +128,27 @@ Game2048.prototype = {
             getGameGrid.removeChild(this.tiles[i]);
         }
         this.tiles = new Array(16);
+    },
+    equal: function(tile1, tile2) {
+        return tile1.getAttribute('val') == tile2.getAttribute('val');
+    },
+    over: function() {
+        for (var i = 0, len = this.tiles.length; i < len; i++) {
+            if (this.tiles[i].getAttribute('val') == 0) {
+                return false;
+            }
+            if (i % 4 != 3) {
+                if (this.equal(this.tiles[i], this.tiles[i + 1])) {
+                    return false;
+                }
+            }
+            if (i < 12) {
+                if (this.equal(this.tiles[i], this.tiles[i + 4])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 var game;
@@ -145,6 +166,12 @@ $(document).keydown(function(event) {
             game.clean();
             $("#startGame").show();
             $("#startGame").html("you win , replay?");
+            return;
+        }
+        if (game.over()) {
+            game.clean();
+            $("#startGame").show();
+            $("#startGame").html("game over , replay?");
             return;
         }
         game.move(event.keyCode);
