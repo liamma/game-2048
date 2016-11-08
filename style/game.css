@@ -41,47 +41,47 @@
     background: #ece0c8;
 }
 
-#div2048 div.tile8 {
+#game-grid div.tile8 {
     color: #fff7eb;
     background: #f2b179;
 }
 
-#div2048 div.tile16 {
+#game-grid div.tile16 {
     color: #fff7eb;
     background: #f59563;
 }
 
-#div2048 div.tile32 {
+#game-grid div.tile32 {
     color: #fff7eb;
     background: #f57c5f;
 }
 
-#div2048 div.tile64 {
+#game-grid div.tile64 {
     color: #fff7eb;
     background: #f65d3b;
 }
 
-#div2048 div.tile128 {
+#game-grid div.tile128 {
     color: #fff7eb;
     background: #edce71;
 }
 
-#div2048 div.tile256 {
+#game-grid div.tile256 {
     color: #fff7eb;
     background: #edcc61;
 }
 
-#div2048 div.tile512 {
+#game-grid div.tile512 {
     color: #fff7eb;
     background: #ecc850;
 }
 
-#div2048 div.tile1024 {
+#game-grid div.tile1024 {
     color: #fff7eb;
     background: #edc53f;
 }
 
-#div2048 div.tile2048 {
+#game-grid div.tile2048 {
     color: #fff7eb;
     background: #eec22e;
 }
