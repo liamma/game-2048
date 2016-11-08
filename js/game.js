@@ -15,7 +15,7 @@ Game2048.prototype = {
         for (var i = 0; i < this.tiles.length; i++) {
             // init is 0
             var tile = this.newTile(0);
-            tile.setAttribute('index', i);
+            tile.setAttribute('id', i);
             this.getSelectGrid.append(tile);
             this.tiles[i] = tile;
         }
@@ -58,7 +58,7 @@ Game2048.prototype = {
             //top
             case 87:
             case 38:
-                for (var i = 4; i <= this.tiles.length; i++) {
+                for (var i = 4; i < this.tiles.length; i++) {
                     var j = i;
                     while (j >= 4) {
                         this.merge(this.tiles[j - 4], this.tiles[j]);
@@ -80,10 +80,10 @@ Game2048.prototype = {
                 //left
             case 37:
             case 65:
-                for (var i = 1; i <= this.tiles.length; i++) {
+                for (var i = 1; i < this.tiles.length; i++) {
                     var j = i;
                     while (j % 4 != 0) {
-                        this.$.merge(this.tiles[j - 1], this.tiles[j]);
+                        this.merge(this.tiles[j - 1], this.tiles[j]);
                         j -= 1;
                     }
                 }
@@ -91,15 +91,43 @@ Game2048.prototype = {
                 //right
             case 68:
             case 39:
-                for (var i = 14; i <= this.tiles.length; i--) {
+                for (var i = 14; i >= 0; i--) {
                     var j = i;
                     while (j % 4 != 3) {
-                        this.$.merge(this.tiles[j], this.tiles[j - 1]);
+                        this.merge(this.tiles[j + 1], this.tiles[j]);
                         j += 1;
                     }
                 }
                 break;
         }
+        this.randomTile();
+    },
+    merge: function(moveToTile, currentTile) {
+        var moveToVal = moveToTile.getAttribute('val'),
+            currentVal = currentTile.getAttribute('val');
+        if (currentVal != 0) {
+            if (moveToVal == 0) {
+                this.setTileVal(moveToTile, currentVal);
+                this.setTileVal(currentTile, 0);
+            } else if (moveToVal == currentVal) {
+                this.setTileVal(moveToTile, currentVal * 2);
+                this.setTileVal(currentTile, 0);
+            }
+        }
+    },
+    max: function() {
+        for (var i = 0; i < this.tiles.length; i++) {
+            if (this.tiles[i].getAttribute('val') == 2048) {
+                return true;
+            }
+        }
+    },
+    clean: function() {
+        for (var i = 0; i < this.tiles.length; i++) {
+            var getGameGrid = document.getElementById("game-grid");
+            getGameGrid.removeChild(this.tiles[i]);
+        }
+        this.tiles = new Array(16);
     }
 }
 var game;
@@ -112,6 +140,13 @@ $('#startGame').click(function() {
 $(document).keydown(function(event) {
     var keyNumList = [87, 38, 68, 39, 83, 40, 37, 65];
     if (keyNumList.indexOf(event.keyCode) > -1) {
+        // when num = 2048,game success
+        if (game.max()) {
+            game.clean();
+            $("#startGame").show();
+            $("#startGame").html("you win , replay?");
+            return;
+        }
         game.move(event.keyCode);
     }
 });
