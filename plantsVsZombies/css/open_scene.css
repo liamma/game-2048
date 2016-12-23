@@ -1,0 +1,37 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Times New Roman", Georgia, Serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: #008080;
+}
+
+#mainPanel {
+    position: absolute;
+    width: 900px;
+    height: 600px;
+    border: 3px outside;
+    overflow: hidden;
+    background-color: #000;
+}
+
+#backGround {
+    position: absolute;
+    width: 1400px;
+    height: 600px;
+    background-image: url(../images/interface/background1unsodded.jpg);
+    visibility: visible;
+    z-index: 0;
+}
+
+#zombies {
+    position: absolute;
+    width: 335px;
+    height: 600px;
+    left: 565px;
+    top: 0;
+    z-index: 1;
+}
