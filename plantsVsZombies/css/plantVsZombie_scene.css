@@ -58,3 +58,9 @@ body {
 #zombies img {
     position: absolute;
 }
+
+#zombies div {
+    position: absolute;
+    top: 226px;
+    z-index: 9999;
+}

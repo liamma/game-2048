@@ -1,8 +1,11 @@
 function init() {
     var newPlant = new Plant();
     newPlant.putPlant();
-}
 
+    var newZombie = new Zombie();
+    newZombie.walk();
+}
+// create Plant
 function Plant() {
     this.blood = 4;
     // get create plant
@@ -52,4 +55,27 @@ Plant.prototype.die = function() {
     $(this.getPlant).remove();
 }
 
+// create zombie
+function Zombie() {
+    // 注意，getZombieDiv 需要写在前面，不然在init中得不到
+    this.blood = 10;
+    this.getZombieDiv = $('#zombies');
+    this.getZombie = this.init();
+}
+
+Zombie.prototype.init = function() {
+    var createZombie = document.createElement('div');
+    $(createZombie).css('left', '650px');
+    $(createZombie).html('<img src= "images/interface/plantshadow32.png" style="position:absolute;left:72px;top:122px"> <img src="images/Zombies/Zombie/Zombie.gif">');
+    this.getZombieDiv[0].appendChild(createZombie);
+    return createZombie;
+}
+
+Zombie.prototype.walk = function() {
+    // 注意，在setInterval中，作用域会改变
+    var that = this;
+    setInterval(function() {
+        $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
+    }, 30);
+}
 init();
