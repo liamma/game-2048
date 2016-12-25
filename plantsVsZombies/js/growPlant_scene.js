@@ -64,8 +64,8 @@ function plantMove(shooter, shooter_transp) {
             var oneBlockGrassWidth = $('#grass')[0].offsetWidth / 9;
             if (event.clientX < $('#grass')[0].offsetLeft + oneBlockGrassWidth)
                 $(shooter_transp).css('left', $('#grass')[0].offsetLeft + oneBlockGrassWidth / 2 - shooter_transp.offsetWidth / 2 + 'px');
-            if (event.clientX > $('#grass')[0].offsetLeft + 8.5 * oneBlockGrassWidth)
-                $(shooter_transp).css('left', $('#grass')[0].offsetLeft + 8.5 * oneBlockGrassWidth - shooter_transp.offsetWidth / 2 + 'px');
+            if (event.clientX > $('#grass')[0].offsetLeft + 8 * oneBlockGrassWidth)
+                $(shooter_transp).css('left', $('#grass')[0].offsetLeft + 8.3 * oneBlockGrassWidth - shooter_transp.offsetWidth / 2 + 'px');
             else {
                 for (var i = 1; i < 8; i++) {
                     if (event.clientX > $('#grass')[0].offsetLeft + i * oneBlockGrassWidth && event.clientX < $('#grass')[0].offsetLeft + (i + 1) * oneBlockGrassWidth)
