@@ -1,0 +1,78 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Times New Roman", Georgia, Serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: #008080;
+}
+
+#mainPanel {
+    position: absolute;
+    width: 900px;
+    height: 600px;
+    border: 3px outside;
+    overflow: hidden;
+    background-color: #000;
+}
+
+#backGround {
+    position: absolute;
+    width: 1400px;
+    height: 600px;
+    background-image: url(../images/interface/background1unsodded.jpg);
+    background-position: -115px 0px;
+    background-repeat: no-repeat;
+    visibility: visible;
+    z-index: 0;
+}
+
+#grass {
+    position: absolute;
+    height: 117px;
+    width: 770px;
+    top: 280px;
+    left: 132px;
+    z-index: 1;
+    background-image: url(../images/interface/sod1row.png);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+}
+
+#cardList {
+    visibility: visible;
+    position: absolute;
+    left: 3px;
+    width: 100px;
+    overflow: visible;
+    z-index: 254;
+}
+
+#cardList div {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    height: 60px;
+}
+
+#cardList img {
+    position: absolute;
+    width: 100px;
+    height: 60px;
+}
+
+#img2 {
+    visibility: visible;
+}
+
+#cardList span {
+    cursor: pointer;
+    position: absolute;
+    left: 66px;
+    top: 40px;
+    width: 34px;
+    height: 20px;
+    font-size: 11pt;
+}
