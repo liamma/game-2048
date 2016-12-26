@@ -20,14 +20,14 @@ Plant.prototype.init = function() {
 }
 
 Plant.prototype.putPlant = function(left, top) {
-    $(this.createPlant).css('left', (left || 500) + 'px');
-    $(this.createPlant).css('top', (top || 294) + 'px');
+    $(this.getPlant).css('left', (left || 500) + 'px');
+    $(this.getPlant).css('top', (top || 294) + 'px');
     this.getPlantsDiv[0].appendChild(this.getPlant);
 }
 
 Plant.prototype.createBullet = function() {
     var bullet = document.createElement('img');
-    $(bullet).css('src', 'images/plant/PB00.gif');
+    $(bullet).attr('src', 'images/plant/PB00.gif');
     $(bullet).css('position', 'absolute');
     $(bullet).css('left', this.getPlant.offsetLeft + 30 + 'px');
     $(bullet).css('top', this.getPlant.offsetTop - 3 + 'px');
@@ -74,8 +74,54 @@ Zombie.prototype.init = function() {
 Zombie.prototype.walk = function() {
     // 注意，在setInterval中，作用域会改变
     var that = this;
-    setInterval(function() {
+    this.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
     }, 30);
 }
+
+Zombie.prototype.walkNoHead = function() {
+    // get replace zombie picture
+    // 通过jquery作用域，获取到第二张图片
+    $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieLostHead.gif';
+}
+
+Zombie.prototype.lostHead = function() {
+    var lostHead = document.createElement('img');
+    // 注意设置属性和css的区别
+    $(lostHead).attr('src', 'images/Zombies/Zombie/ZombieHead.gif');
+    $(lostHead).css('position', 'absolute');
+    $(lostHead).css('zIndex', 889);
+    $(lostHead).css('left', this.getZombie.offsetLeft + 'px');
+    $(lostHead).css('top', this.getZombie.offsetTop + 'px');
+    this.getZombieDiv[0].appendChild(lostHead);
+    setTimeout(function() {
+        $(lostHead).remove();
+    }, 1500);
+}
+
+Zombie.prototype.stopWalk = function() {
+    clearInterval(this.walkTimer);
+    this.walkTimer = null;
+}
+
+Zombie.prototype.eatPlant = function() {
+    this.stopWalk();
+    $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieAttack.gif';
+}
+
+Zombie.prototype.eatPlantNoHead = function() {
+    this.stopWalk();
+    $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieLostHeadAttack.gif';
+}
+
+Zombie.prototype.down = function() {
+    this.stopWalk();
+    $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieDie.gif';
+}
+
+Zombie.prototype.die = function() {
+    this.stopWalk();
+    $(this.getZombie).remove();
+}
+
 init();
