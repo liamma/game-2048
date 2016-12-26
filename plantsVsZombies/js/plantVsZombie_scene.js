@@ -1,16 +1,19 @@
 function init() {
-    var newPlant = new Plant();
-    newPlant.putPlant();
-
     var newZombie = new Zombie();
     newZombie.walk();
+    var newPlant = new Plant();
+    newPlant.putPlant(300);
+    newPlant.shoot(newZombie);
+
 }
 // create Plant
 function Plant() {
     this.blood = 4;
+    this.getPlantsDiv = $('#plants');
+    this.getZombieDiv = $('#zombies');
     // get create plant
     this.getPlant = this.init();
-    this.getPlantsDiv = $('#plants');
+
 }
 
 Plant.prototype.init = function() {
@@ -31,17 +34,28 @@ Plant.prototype.createBullet = function() {
     $(bullet).css('position', 'absolute');
     $(bullet).css('left', this.getPlant.offsetLeft + 30 + 'px');
     $(bullet).css('top', this.getPlant.offsetTop - 3 + 'px');
-    $(bullet).css('zIndex', 998);
-    this.getPlantsDiv[0].appendChild(bullet);
+    // 这里注意，不仅需要放在zombie容器中，还有zIndex的层叠的数目，层叠数越大，图片越靠前
+    $(bullet).css('zIndex', 9998);
+    this.getZombieDiv[0].appendChild(bullet);
     return bullet;
 }
 
-Plant.prototype.shoot = function() {
-    setInterval(function() {
-        var bullet = this.createBullet();
-        this.shooterTimer = setInterval(function() {
+Plant.prototype.shoot = function(zombie) {
+    // 处理作用域问题
+    var that = this;
+    that.shooterTimer = setInterval(function() {
+        var bullet = that.createBullet();
+        bullet.timer = setInterval(function() {
             $(bullet).css('left', bullet.offsetLeft + 11 + 'px');
-        }, 80);
+            if (bullet.offsetLeft >= zombie.getZombie.offsetLeft + 65) {
+                clearInterval(bullet.timer);
+                bullet.timer = null;
+                bullet.src = 'images/plant/PeaBulletHit.gif';
+                setTimeout(function() {
+                    $(bullet).remove();
+                }, 300);
+            }
+        }, 30);
     }, 2000);
 }
 
