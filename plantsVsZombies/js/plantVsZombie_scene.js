@@ -2,7 +2,7 @@ function init() {
     var newZombie = new Zombie();
     newZombie.walk();
     var newPlant = new Plant();
-    newPlant.putPlant(300);
+    newPlant.putPlant(100);
     newPlant.shoot(newZombie);
 
 }
@@ -47,15 +47,49 @@ Plant.prototype.shoot = function(zombie) {
         var bullet = that.createBullet();
         bullet.timer = setInterval(function() {
             $(bullet).css('left', bullet.offsetLeft + 11 + 'px');
-            if (bullet.offsetLeft >= zombie.getZombie.offsetLeft + 65) {
+            if (bullet.offsetLeft >= zombie.getZombie.offsetLeft + 45) {
                 clearInterval(bullet.timer);
                 bullet.timer = null;
                 bullet.src = 'images/plant/PeaBulletHit.gif';
                 setTimeout(function() {
                     $(bullet).remove();
                 }, 300);
+                zombie.blood--;
             }
-        }, 30);
+            if ((zombie.getZombie.offsetLeft + 10) <= (that.getPlant.offsetLeft + that.getPlant.offsetWidth) && zombie.blood >= 0 && that.blood >= 0) {
+                that.blood--;
+                // 对于僵尸而言
+                if (zombie.blood > 2) zombie.eatPlant();
+                else if (zombie.blood == 2) {
+                    zombie.lostHead();
+                    zombie.eatPlantNoHead();
+                } else if (zombie.blood == 1) zombie.down();
+                else if (zombie.blood == 0) {
+                    debugger
+                    that.stopShoot();
+                    zombie.die();
+                }
+                // 对于植物而言
+                if (that.blood == 0) {
+                    that.stopShoot();
+                    that.die();
+                    if (zombie.blood == 2) zombie.walkNoHead();
+                    if (zombie.blood > 2) zombie.walk();
+                    return;
+                }
+            } else {
+                if (zombie.blood == 2) {
+                    zombie.lostHead();
+                    zombie.walkNoHead();
+                } else if (zombie.blood == 1) {
+                    zombie.down();
+                } else if (zombie.blood == 0) {
+                    that.stopShoot();
+                    zombie.die();
+                }
+
+            }
+        }, 20);
     }, 2000);
 }
 
@@ -72,7 +106,7 @@ Plant.prototype.die = function() {
 // create zombie
 function Zombie() {
     // 注意，getZombieDiv 需要写在前面，不然在init中得不到
-    this.blood = 10;
+    this.blood = 5;
     this.getZombieDiv = $('#zombies');
     this.getZombie = this.init();
 }
@@ -86,17 +120,21 @@ Zombie.prototype.init = function() {
 }
 
 Zombie.prototype.walk = function() {
+    $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/Zombie.gif';
     // 注意，在setInterval中，作用域会改变
     var that = this;
-    this.walkTimer = setInterval(function() {
+    that.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
     }, 30);
 }
-
 Zombie.prototype.walkNoHead = function() {
     // get replace zombie picture
     // 通过jquery作用域，获取到第二张图片
     $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieLostHead.gif';
+    var that = this;
+    that.walkTimer = setInterval(function() {
+        $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
+    }, 30);
 }
 
 Zombie.prototype.lostHead = function() {
