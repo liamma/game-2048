@@ -1,10 +1,10 @@
 function init() {
+
     var newZombie = new Zombie();
     newZombie.walk();
     var newPlant = new Plant();
-    newPlant.putPlant(100);
+    newPlant.putPlant(500);
     newPlant.shoot(newZombie);
-
 }
 // create Plant
 function Plant() {
@@ -125,7 +125,7 @@ Zombie.prototype.walk = function() {
     var that = this;
     that.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
-    }, 30);
+    }, 60);
 }
 Zombie.prototype.walkNoHead = function() {
     // get replace zombie picture
@@ -134,7 +134,7 @@ Zombie.prototype.walkNoHead = function() {
     var that = this;
     that.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
-    }, 30);
+    }, 60);
 }
 
 Zombie.prototype.lostHead = function() {
