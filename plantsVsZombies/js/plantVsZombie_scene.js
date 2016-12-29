@@ -3,7 +3,7 @@ function init() {
     var newZombie = new Zombie();
     newZombie.walk();
     var newPlant = new Plant();
-    newPlant.putPlant(500);
+    newPlant.putPlant(200);
     newPlant.shoot(newZombie);
 }
 // create Plant
@@ -56,36 +56,39 @@ Plant.prototype.shoot = function(zombie) {
                 }, 300);
                 zombie.blood--;
             }
-            if ((zombie.getZombie.offsetLeft + 10) <= (that.getPlant.offsetLeft + that.getPlant.offsetWidth) && zombie.blood >= 0 && that.blood >= 0) {
+            if ((zombie.getZombie.offsetLeft + 35) <= (that.getPlant.offsetLeft + that.getPlant.offsetWidth) && zombie.blood >= 0 && that.blood >= 0) {
                 that.blood--;
                 // 对于僵尸而言
-                if (zombie.blood > 2) zombie.eatPlant();
-                else if (zombie.blood == 2) {
+                if (zombie.blood > 2) { zombie.eatPlant(); } else if (zombie.blood == 2) {
                     zombie.lostHead();
                     zombie.eatPlantNoHead();
-                } else if (zombie.blood == 1) zombie.down();
-                else if (zombie.blood == 0) {
-                    debugger
-                    that.stopShoot();
+                } else if (zombie.blood == 1) { zombie.down(); } else if (zombie.blood <= 0) {
                     zombie.die();
+                    that.stopShoot();
                 }
                 // 对于植物而言
                 if (that.blood == 0) {
-                    that.stopShoot();
                     that.die();
-                    if (zombie.blood == 2) zombie.walkNoHead();
-                    if (zombie.blood > 2) zombie.walk();
+                    that.stopShoot();
+
+                    if (zombie.blood > 2) { zombie.walk(); } else if (zombie.blood == 2) { zombie.walkNoHead(); } else if (zombie.blood <= 0) { zombie.die(); }
                     return;
                 }
             } else {
                 if (zombie.blood == 2) {
-                    zombie.lostHead();
-                    zombie.walkNoHead();
+                    if (!zombie.isHeadDown) {
+                        zombie.lostHead();
+                    }
+                    if (!zombie.walkNoHeadFlag) {
+                        zombie.walkNoHead();
+                    }
                 } else if (zombie.blood == 1) {
-                    zombie.down();
-                } else if (zombie.blood == 0) {
-                    that.stopShoot();
+                    if (!zombie.downFlag) {
+                        zombie.down();
+                    }
+                } else if (zombie.blood <= 0) {
                     zombie.die();
+                    that.stopShoot();
                 }
 
             }
@@ -106,9 +109,13 @@ Plant.prototype.die = function() {
 // create zombie
 function Zombie() {
     // 注意，getZombieDiv 需要写在前面，不然在init中得不到
-    this.blood = 5;
+    this.blood = 6;
     this.getZombieDiv = $('#zombies');
     this.getZombie = this.init();
+    // 判断是否头已经掉落
+    this.isHeadDown = false;
+    this.walkNoHeadFlag = false;
+    this.downFlag = false;
 }
 
 Zombie.prototype.init = function() {
@@ -123,7 +130,7 @@ Zombie.prototype.walk = function() {
     $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/Zombie.gif';
     // 注意，在setInterval中，作用域会改变
     var that = this;
-    that.walkTimer = setInterval(function() {
+    this.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
     }, 60);
 }
@@ -132,9 +139,10 @@ Zombie.prototype.walkNoHead = function() {
     // 通过jquery作用域，获取到第二张图片
     $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieLostHead.gif';
     var that = this;
-    that.walkTimer = setInterval(function() {
+    this.walkTimer = setInterval(function() {
         $(that.getZombie).css('left', that.getZombie.offsetLeft - 1 + 'px');
     }, 60);
+    this.walkNoHeadFlag = true;
 }
 
 Zombie.prototype.lostHead = function() {
@@ -149,6 +157,7 @@ Zombie.prototype.lostHead = function() {
     setTimeout(function() {
         $(lostHead).remove();
     }, 1500);
+    this.isHeadDown = true;
 }
 
 Zombie.prototype.stopWalk = function() {
@@ -169,6 +178,7 @@ Zombie.prototype.eatPlantNoHead = function() {
 Zombie.prototype.down = function() {
     this.stopWalk();
     $('img', $(this.getZombie))[1].src = 'images/Zombies/Zombie/ZombieDie.gif';
+    this.downFlag = true;
 }
 
 Zombie.prototype.die = function() {
